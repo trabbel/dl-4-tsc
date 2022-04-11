@@ -76,9 +76,9 @@ if sys.argv[1] == 'all_models':
     dataset_name = sys.argv[3]
     datasets_dict = read_dataset(root_dir, archive_name, dataset_name)
 
-    #CLASSIFIERS = ['fcn', 'mlp', 'resnet', 'tlenet', 'mcnn', 'twiesn', 'encoder', 'mcdcnn', 'cnn', 'inception']
-    #CLASSIFIERS = ['fcn', 'mlp', 'resnet', 'twiesn', 'encoder', 'mcdcnn', 'cnn', 'inception', 'mcnn', 'tlenet']
-    CLASSIFIERS = ['tlenet']
+
+    CLASSIFIERS = ['fcn', 'mlp', 'resnet', 'twiesn', 'encoder', 'mcdcnn', 'cnn', 'inception', 'mcnn', 'tlenet']
+
     for classifier_name in CLASSIFIERS:
         print('classifier_name', classifier_name)
 
