@@ -1,19 +1,10 @@
-from utils.utils import generate_results_csv
 from utils.utils import create_directory
 from utils.utils import read_dataset
-from utils.utils import transform_mts_to_ucr_format
-from utils.utils import visualize_filter
-from utils.utils import viz_for_survey_paper
-from utils.utils import viz_cam
 import os
 import numpy as np
 import sys
 import sklearn
-import utils
-from utils.constants import CLASSIFIERS
-from utils.constants import ARCHIVE_NAMES
-from utils.constants import ITERATIONS
-from utils.utils import read_all_datasets
+
 
 
 def fit_classifier():
@@ -78,53 +69,40 @@ def create_classifier(classifier_name, input_shape, nb_classes, output_directory
 
 
 ############################################### main
+root_dir = os.getcwd()
 
-# change this directory for your machine
-root_dir = '/b/home/uha/hfawaz-datas/dl-tsc-temp/'
+if sys.argv[1] == 'all_models':
+    archive_name = sys.argv[2]
+    dataset_name = sys.argv[3]
+    datasets_dict = read_dataset(root_dir, archive_name, dataset_name)
 
-if sys.argv[1] == 'run_all':
+    #CLASSIFIERS = ['fcn', 'mlp', 'resnet', 'tlenet', 'mcnn', 'twiesn', 'encoder', 'mcdcnn', 'cnn', 'inception']
+    #CLASSIFIERS = ['fcn', 'mlp', 'resnet', 'twiesn', 'encoder', 'mcdcnn', 'cnn', 'inception', 'mcnn', 'tlenet']
+    CLASSIFIERS = ['tlenet']
     for classifier_name in CLASSIFIERS:
         print('classifier_name', classifier_name)
 
-        for archive_name in ARCHIVE_NAMES:
-            print('\tarchive_name', archive_name)
+        for iter in range(4,5):#ITERATIONS):
+            trr = '_itr_' + str(iter)
+            output_directory = (
+                f'{root_dir}/results/{archive_name}/{dataset_name}/{classifier_name}/{trr}/'
+            )
 
-            datasets_dict = read_all_datasets(root_dir, archive_name)
 
-            for iter in range(ITERATIONS):
-                print('\t\titer', iter)
+            #for dataset_name in utils.constants.dataset_names_for_archive[archive_name]:
+            print('\t\t\tdataset_name: ', dataset_name)
 
-                trr = ''
-                if iter != 0:
-                    trr = '_itr_' + str(iter)
+            #output_directory = tmp_output_directory + dataset_name + trr + '/'
 
-                tmp_output_directory = root_dir + '/results/' + classifier_name + '/' + archive_name + trr + '/'
+            create_directory(output_directory)
 
-                for dataset_name in utils.constants.dataset_names_for_archive[archive_name]:
-                    print('\t\t\tdataset_name: ', dataset_name)
+            fit_classifier()
 
-                    output_directory = tmp_output_directory + dataset_name + '/'
+            print('\t\t\t\tDONE')
 
-                    create_directory(output_directory)
+            # the creation of this directory means the classification is finished
+            create_directory(f'{output_directory}/DONE')
 
-                    fit_classifier()
-
-                    print('\t\t\t\tDONE')
-
-                    # the creation of this directory means
-                    create_directory(output_directory + '/DONE')
-
-elif sys.argv[1] == 'transform_mts_to_ucr_format':
-    transform_mts_to_ucr_format()
-elif sys.argv[1] == 'visualize_filter':
-    visualize_filter(root_dir)
-elif sys.argv[1] == 'viz_for_survey_paper':
-    viz_for_survey_paper(root_dir)
-elif sys.argv[1] == 'viz_cam':
-    viz_cam(root_dir)
-elif sys.argv[1] == 'generate_results_csv':
-    res = generate_results_csv('results.csv', root_dir)
-    print(res.to_string())
 else:
     # this is the code used to launch an experiment on a dataset
     archive_name = sys.argv[1]
@@ -135,10 +113,12 @@ else:
     if itr == '_itr_0':
         itr = ''
 
-    output_directory = root_dir + '/results/' + classifier_name + '/' + archive_name + itr + '/' + \
-                       dataset_name + '/'
+    output_directory = (
+        f'{root_dir}/results/{archive_name}/{dataset_name}/{classifier_name}/{itr}/'
+    )
 
-    test_dir_df_metrics = output_directory + 'df_metrics.csv'
+
+    test_dir_df_metrics = f'{output_directory}df_metrics.csv'
 
     print('Method: ', archive_name, dataset_name, classifier_name, itr)
 
@@ -154,4 +134,4 @@ else:
         print('DONE')
 
         # the creation of this directory means
-        create_directory(output_directory + '/DONE')
+        create_directory(f'{output_directory}/DONE')

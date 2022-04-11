@@ -146,6 +146,8 @@ class Classifier_MCNN:
         x_train,y_train,x_val,y_val = self.split_train(x_train,y_train)
         
         ori_len = x_train.shape[1] # original_length of time series  
+        print(ori_len)
+        print(filter_size)
         slice_ratio = 0.9
 
         if do_train == True:
@@ -458,7 +460,7 @@ class Classifier_MCNN:
 
         model = keras.models.Model(inputs=input_layers, outputs=output_layer)
 
-        model.compile(loss='categorical_crossentropy', optimizer=keras.optimizers.Adam(lr=0.1),
+        model.compile(loss='categorical_crossentropy', optimizer=keras.optimizers.Adam(learning_rate=0.1),
             metrics=['accuracy'])
         
         return model 

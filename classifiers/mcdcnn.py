@@ -59,7 +59,7 @@ class Classifier_MCDCNN:
 
         model = keras.models.Model(inputs=input_layers, outputs=output_layer)
 
-        model.compile(loss='categorical_crossentropy', optimizer=keras.optimizers.SGD(lr=0.01,momentum=0.9,decay=0.0005),
+        model.compile(loss='categorical_crossentropy', optimizer=keras.optimizers.SGD(learning_rate=0.01,momentum=0.9,decay=0.0005),
                       metrics=['accuracy'])
 
         file_path = self.output_directory + 'best_model.hdf5'

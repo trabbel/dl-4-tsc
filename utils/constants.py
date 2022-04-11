@@ -53,7 +53,7 @@ MTS_DATASET_NAMES = ['ArabicDigits', 'AUSLAN', 'CharacterTrajectories', 'CMUsubj
 
 ITERATIONS = 5  # nb of random runs for random initializations
 
-ARCHIVE_NAMES = ['UCRArchive_2018']
+ARCHIVE_NAMES = ['WP']
 
 dataset_names_for_archive = {'UCRArchive_2018': UNIVARIATE_DATASET_NAMES_2018}
 
