@@ -3,7 +3,7 @@ This repository contains the code of the paper [Deep learning for time series cl
 
 
 ## Data 
-Create a folder in [archives](https://github.com/trabbel/dl-4-tsc/tree/master/archives) with subfolders for every individual experiment dataset. An experiment needs two files, named *experiment\_name\_TEST.tsv* and experiment\_name\_TRAIN.tsv. Test and train files should only include tab seperated values, first value per line should be the class as integer, all following values the features of the observation. 
+Create a folder in [archives](https://github.com/trabbel/dl-4-tsc/tree/master/archives) with subfolders for every individual experiment dataset. An experiment needs two files, named *experiment\_name\_TEST.tsv* and *experiment\_name\_TRAIN.tsv*. Test and train files should only include tab seperated values, first value per line should be the class as integer, all following values the features of the observation. 
 
 
 ## Code 
@@ -14,11 +14,11 @@ The code is divided as follows:
 
 To run a model on one dataset you should issue the following command: 
 ```
-python3 main.py archive\_name experiment\_name classifier\_name iteration
+python3 main.py archive_name experiment_name classifier_name iteration
 ```
 To run all models for one dataset you should issue the following command:
 ```
-python3 main.py all\_models archive\_name experiment\_name
+python3 main.py all_models archive_name experiment_name
 ```
 
 
