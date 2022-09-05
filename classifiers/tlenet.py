@@ -20,6 +20,8 @@ class Classifier_TLENET:
         length = data_x.shape[1]
         n_dim = data_x.shape[2] # for MTS 
         nb_classes = data_y.shape[1]
+        
+        #print(data_x.shape)
        
         increase_num = length - length_sliced + 1 #if increase_num =5, it means one ori becomes 5 new instances.
         n_sliced = n * increase_num
@@ -39,6 +41,8 @@ class Classifier_TLENET:
         num_x = data_x.shape[0]
         len_x = data_x.shape[1]
         dim_x = data_x.shape[2]
+        
+        print(data_x.shape)
         
         x = np.arange(0,len_x,warping_ratio)
         xp = np.arange(0,len_x)

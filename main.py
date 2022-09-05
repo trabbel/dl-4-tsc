@@ -82,7 +82,7 @@ if sys.argv[1] == 'all_models':
     for classifier_name in CLASSIFIERS:
         print('classifier_name', classifier_name)
 
-        for iter in range(4,5):#ITERATIONS):
+        for iter in range(5):#ITERATIONS):
             trr = '_itr_' + str(iter)
             output_directory = (
                 f'{root_dir}/results/{archive_name}/{dataset_name}/{classifier_name}/{trr}/'
