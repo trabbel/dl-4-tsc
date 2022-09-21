@@ -2,6 +2,7 @@
 import tensorflow.keras as keras
 import tensorflow as tf
 import numpy as np 
+import pandas as pd
 import time
 
 from utils.utils import calculate_metrics
@@ -406,7 +407,7 @@ class Classifier_MCNN:
 
         df_metrics.to_csv(self.output_directory+'df_metrics.csv', index=False)
 
-        return df_metrics, model , best_validation_loss
+        return df_metrics, model , best_validation_loss, y_pred
 
 
     def split_input_for_model(self, x, input_shapes):
@@ -487,13 +488,15 @@ class Classifier_MCNN:
                 self.output_directory = output_directory_root+'/hyper_param_search/'+'/pool_factor_'+ \
                     str(pool_factor)+'/filter_size_'+str(filter_size)+'/' 
                 create_directory(self.output_directory)
-                df_metrics, model , valid_loss = self.train(x_train, y_train, x_test, 
+                df_metrics, model , valid_loss, y_pred = self.train(x_train, y_train, x_test, 
                                                           y_test,y_true,pool_factor,filter_size)
 
                 if (valid_loss < best_valid_loss): 
                     best_valid_loss = valid_loss
                     best_df_metrics = df_metrics
                     best_df_metrics.to_csv(output_directory_root+'df_metrics.csv', index=False)
+                    cm = pd.crosstab(y_true, y_pred)#tf.math.confusion_matrix(y_true, y_pred)
+                    cm.to_csv(f'{output_directory_root}confusion_matrix.csv')
                     model.save(output_directory_root+'best_model.hdf5')
 
                 model = None

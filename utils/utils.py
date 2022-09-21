@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 import matplotlib
 
 matplotlib.use('agg')
@@ -181,6 +182,9 @@ def save_logs_t_leNet(output_directory, hist, y_pred, y_true, duration):
     df_metrics = calculate_metrics(y_true, y_pred, duration)
     df_metrics.to_csv(f'{output_directory}df_metrics.csv', index=False)
 
+    cm = pd.crosstab(y_true, y_pred)#tf.math.confusion_matrix(y_true, y_pred)
+    cm.to_csv(f'{output_directory}confusion_matrix.csv')#, index=False)
+    
     index_best_model = hist_df['loss'].idxmin()
     row_best_model = hist_df.loc[index_best_model]
 
@@ -206,6 +210,9 @@ def save_logs(output_directory, hist, y_pred, y_true, duration, lr=True, y_true_
 
     df_metrics = calculate_metrics(y_true, y_pred, duration, y_true_val, y_pred_val)
     df_metrics.to_csv(f'{output_directory}df_metrics.csv', index=False)
+    
+    cm = pd.crosstab(y_true, y_pred)#tf.math.confusion_matrix(y_true, y_pred)
+    cm.to_csv(f'{output_directory}confusion_matrix.csv')#, index=False)
 
     index_best_model = hist_df['loss'].idxmin()
     row_best_model = hist_df.loc[index_best_model]

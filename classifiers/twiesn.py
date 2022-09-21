@@ -1,5 +1,6 @@
 # model twi-esn 
 import numpy as np
+import pandas as pd
 from scipy import sparse
 from scipy.sparse import linalg as slinalg
 
@@ -164,7 +165,7 @@ class Classifier_TWIESN:
 		df_metrics.to_csv(self.output_directory+'df_metrics.csv', index=False)
 
 		# return the training accuracy and the prediction metrics on the test set
-		return df_metrics , train_acc
+		return df_metrics , train_acc, y_pred
 
 
 	def fit(self,x_train,y_train,x_test,y_test, y_true):
@@ -199,7 +200,7 @@ class Classifier_TWIESN:
 				self.output_directory = output_directory_root+'/hyper_param_search/'+\
 					'/config_'+str(idx_config)+'/'+'rho_'+str(rho)+'/'
 				create_directory(self.output_directory)
-				df_metrics, train_acc = self.train() 
+				df_metrics, train_acc, y_pred = self.train() 
 
 				if best_train_acc < train_acc : 
 					best_train_acc = train_acc
@@ -207,5 +208,7 @@ class Classifier_TWIESN:
 					np.savetxt(output_directory_root+'W_in.txt', self.W_in)
 					np.savetxt(output_directory_root+'W.txt', self.W)
 					np.savetxt(output_directory_root+'W_out.txt', self.W_out)
+					cm = pd.crosstab(y_true, y_pred)#tf.math.confusion_matrix(y_true, y_pred)
+					cm.to_csv(f'{output_directory_root}confusion_matrix.csv')
 
 				gc.collect()
